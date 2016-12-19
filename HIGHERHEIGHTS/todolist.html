@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<!--
+
+This demo is related to pages 420-423 in Duckett.
+
+There are two kinds of storage on the client-side (inside the web browser):
+
++ Session Storage. Data stored in session storage is retained only for the lifetime of the given tab/window.
+
++ Local Storage (via the localStorage object). Data stored in local storage is retained more or less permanently.
+  __Good for information that should be stored outside of the browsing session or reuse at a later time.
+
+Note: web browsers typically only store up to 5MB of data per domain.
+
+-->
+
+
+<html>
+
+<head>
+  <title>data storage | in-class demo</title>
+  <style type="text/css">
+    body { font-family: Helvetica ; line-height: 1.5em ; }
+    .label { width: 100px ; float: left ; text-transform: uppercase; font-size: 0.7em ; font-weight: 700; letter-spacing: 1px; }
+    .field { width: 800px ;height: 45px ;}
+    input { font-size: 1.1em ; padding:3px;}
+  </style>
+  <link rel="stylesheet" href="todolist.css">
+</head>
+<body>
+
+
+<div class="block">
+  <header>
+    <h1>Higher Heights</h1>
+    <nav><h1>&nbsp;</h1>
+
+      <ul>
+        <li><a href="#Home">Home</a></li>
+        <li><a href="#About">About</a></li>
+        <li><a href="#Feed Back">Feed Back</a></li>
+        <li><a href="#Logout">Logout</a></li>
+      </ul></nav>
+  </header>
+</div>
+<h2>Yearly Goal</h2>
+<h2>Monthly Goal</h2>
+<h2>Weekly Goal</h2>
+<h2>Daily Goal</h2>
+<h2>Bucket List</h2>
+
+
+
+</head>
+<body>
+
+
+<!--form -->
+<form id="persisent_form" name="persisent_form" method="post" action="">
+  <!--full task name text-->
+  <div class="label">
+    <label for="fullname">Goal name:</label>
+  </div>
+  <!--full name task box-->
+  <div class="field">
+    <input type="text" name="fullname" id="fullname" size="40" />
+  </div>
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+  <!--empty space-->
+  <div class="label">&nbsp;
+  </div>
+  <!--save button-->
+  <div class="field">
+    <input type="submit" name="save" id="save" value="Save" />
+  </div>
+</form>
+<div>Goal</div>
+<div id="task_name"> </div>
+<p id="task_name"> </p>  <input class="checkbox" type="checkbox">
+<span class="task-name"><!-- TASK_NAME --></span>
+</label>
+<!--
+
+Page 421 in Duckett lists all of the methods and properties of the localStorage object.
+
+-->
+
+<!-- jQuery library via Google CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+  //when page is finished loading
+  $(document).ready ( function ( ) {
+    //create variables
+    var local_stored_name, local_stored_mail, local_stored_task ;
+
+    //??
+    var one = JSON.parse(localStorage.task);
+    //alert( one.task1.name );
+
+    // Check if localStorage has the goods when the webpage loads.
+    if ( localStorage.length > 0 ) {
+      local_stored_name = localStorage.name ;
+      local_stored_mail = localStorage.mail ;
+      local_stored_task = localStorage.task ;
+      local_stored_task = localStorage.task ;
+
+      //put information from storage into text boxes
+      $('#fullname').val( local_stored_name ) ;
+      $('#email').val( local_stored_mail ) ;
+      var ls_task = $.parseJSON(local_stored_task) ;
+      //This is the variable for printing 'username'
+      $('#task_name').text( ls_task.username ) ;
+     // $('#task_name').text( local_stored_mail) ;
+      //console.log is my best friend.
+      console.log(ls_task.task_name) ;
+    }
+  }) ;
+  //This activates on submit
+  $('#persisent_form').on( 'submit', function (event) {
+    //prevents from refreshing page
+    event.preventDefault(); // Stop form submission.
+    //alert ( '.here')
+    //gets the name from the text fields of fullname and email.
+    var name = $('#fullname').val() ;
+    var mail = $('#email').val() ;
+    var task = $('#task_name').val () ;
+    var task = $('#task_name').val () ;
+
+    // If name is not blank and mail is not blank make 'task'
+    if ( name != '' && mail != '' ) {
+      //   var test = { red:'test1',green:'test2',blue:'test3'};
+      //task name = key , after : value
+      //task.task1.due = 'Dec.9th'
+      //task.task2.name = 'My second task'
+      //task.task_name = 'My first task'
+      var task = {
+
+        username: name,
+
+        task_name: 'My first task',
+
+        task1: {
+          name: 'My first task',
+          due: 'Dec.9th'
+        },
+        task2: {
+          name: 'My second task'
+        }
+
+      }
+//      localStorage.name = name ;
+//      localStorage.mail = mail ;
+//      localStorage.task = task ;
+      localStorage.task = JSON.stringify(task) ;
+      alert ( 'Your info has been saved persistently in localStorage!' );
+
+
+      var checkbox = targetElement.querySelector(".checkbox");
+
+      if (checkbox.checked) {
+        targetElement.classList.add("completed");
+      } else {
+        targetElement.classList.remove("completed");
+      }
+
+
+      todolistContainer.addEventListener('click', function(event) {
+        var targetElement = event.toElement;
+
+        while (!targetElement.classList.contains("task")) {
+          targetElement = targetElement.parentElement;
+        }
+
+        var checkbox = targetElement.querySelector(".checkbox");
+
+        if (checkbox.checked) {
+          targetElement.classList.add("completed");
+        } else {
+          targetElement.classList.remove("completed");
+        }
+      });
+
+    }
+
+  });
+
+</script>
+
+
+  <body>
+  <form>
+    <label>
+      Task Name
+      <input id="new-task-input" type="text" placeholder="What tasks must be fulfilled?">
+    </label>
+    <button type="button" id="add-task-button">
+      Add Task
+    </button>
+  </form>
+  <ul id="todolist-container">
+  </ul>
+
+  <script type="text/template" id="list-item-template">
+    <li class="task">
+      <label>
+        <input class="checkbox" type="checkbox">
+        <span class="task-name"><!-- TASK_NAME --></span>
+      </label>
+    </li>
+  </script>
+
+  <script src="todolist.js"></script>
+  </body>
+</html>
